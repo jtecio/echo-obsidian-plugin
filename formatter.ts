@@ -24,11 +24,11 @@ export function formatCapture(
 	}
 
 	if (settings.showAudioLinks && capture.has_audio) {
-		const audioUrl = api.getAudioUrl(capture.id);
-		lines.push(`  \u{1F3B5} [Lyssna](${audioUrl})`);
+		const webUrl = `${api.getServerUrl()}/#capture/${capture.id}`;
+		lines.push(`  [🎤](${webUrl})`);
 	}
 
-	lines.push(`  <!-- echo-id:${capture.id} -->`);
+	lines.push(`#📼${capture.id}`);
 
 	return lines.join("\n");
 }
@@ -61,7 +61,7 @@ export function formatMeetingFilename(capture: Capture): string {
 
 export function formatTodo(todo: Todo): string {
 	const checkbox = todo.completed ? "- [x]" : "- [ ]";
-	return `${checkbox} ${todo.text.trim()} <!-- echo-todo:${todo.id} -->`;
+	return `${checkbox} ${todo.text.trim()} #📼t${todo.id}`;
 }
 
 function sanitizeFilename(name: string): string {

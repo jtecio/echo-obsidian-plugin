@@ -94,6 +94,10 @@ export class EchoApi {
 		return this.request<SyncPendingResponse>("GET", "/api/sync/pending");
 	}
 
+	getServerUrl(): string {
+		return this.serverUrl;
+	}
+
 	getAudioUrl(captureId: number): string {
 		return `${this.serverUrl}/api/captures/${captureId}/audio?token=${encodeURIComponent(this.token)}`;
 	}

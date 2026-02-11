@@ -4,7 +4,8 @@ import type { DailyNoteManager } from "./daily-notes";
 import type { EchoSettings, Todo } from "./types";
 import { formatDate } from "./formatter";
 
-const ECHO_TODO_MARKER = /<!-- echo-todo:(\d+) -->/;
+const ECHO_TODO_MARKER = /#📼t(\d+)/;
+const ECHO_TODO_MARKER_OLD = /<!-- echo-todo:(\d+) -->/;
 const MIC_EMOJI = "\u{1F3A4}"; // 🎤
 const TODO_LINE_RE = /^- \[([ x\/])\] /;
 
@@ -95,7 +96,7 @@ export class TodoSync {
 		// 5. Echo Web → Obsidian: write all todos to today's daily note
 		onProgress?.("Writing todos to daily note...");
 		const allEchoTodos = await this.api.getTodos(); // Re-fetch to get updated state
-		await this.writeTodosToDaily(allEchoTodos.filter(t => !t.archived));
+		await this.writeTodosToDaily(allEchoTodos.filter(t => !t.archived && !t.completed));
 
 		return { created, updated, errors };
 	}
@@ -146,15 +147,16 @@ export class TodoSync {
 
 			const completed = checkMatch[1] === "x";
 
-			// Check for echo-todo marker
-			const markerMatch = line.match(ECHO_TODO_MARKER);
+			// Check for echo-todo marker (new #📼tN or old <!-- echo-todo:N -->)
+			const markerMatch = line.match(ECHO_TODO_MARKER) || line.match(ECHO_TODO_MARKER_OLD);
 			const echoId = markerMatch ? parseInt(markerMatch[1]) : null;
 
-			// Extract text: after checkbox, remove 🎤 and marker
+			// Extract text: after checkbox, remove 🎤 and markers
 			let text = line
 				.replace(TODO_LINE_RE, "")
 				.replace(MIC_EMOJI, "")
 				.replace(ECHO_TODO_MARKER, "")
+				.replace(ECHO_TODO_MARKER_OLD, "")
 				.trim();
 
 			todos.push({
@@ -180,7 +182,7 @@ export class TodoSync {
 		const lines = content.split("\n");
 
 		if (lineIndex < lines.length && lines[lineIndex] === originalLine) {
-			lines[lineIndex] = `${originalLine} <!-- echo-todo:${todoId} -->`;
+			lines[lineIndex] = `${originalLine} #📼t${todoId}`;
 			await this.app.vault.modify(file, lines.join("\n"));
 		}
 	}

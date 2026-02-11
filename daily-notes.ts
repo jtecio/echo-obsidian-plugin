@@ -74,9 +74,11 @@ export class DailyNoteManager {
 	async appendToSection(file: TFile, entry: string, sectionHeader?: string): Promise<void> {
 		const content = await this.app.vault.read(file);
 
-		// Check for duplicate
-		const echoIdMatch = entry.match(/<!-- echo-id:(\d+) -->/);
-		if (echoIdMatch && content.contains(`<!-- echo-id:${echoIdMatch[1]} -->`)) {
+		// Check for duplicate (support both old and new marker format)
+		const newMarker = entry.match(/#📼(\d+)/);
+		const oldMarker = entry.match(/<!-- echo-id:(\d+) -->/);
+		const markerId = newMarker?.[1] || oldMarker?.[1];
+		if (markerId && (content.contains(`#📼${markerId}`) || content.contains(`<!-- echo-id:${markerId} -->`))) {
 			return; // Already synced
 		}
 
