@@ -16,7 +16,11 @@ export class DailyNoteManager {
 
 	async getOrCreateDailyNote(dateStr: string): Promise<TFile> {
 		const year = dateStr.substring(0, 4);
-		const folder = this.settings.dailyNoteFolder || "Journal/Daily";
+		let folder = this.settings.dailyNoteFolder || "Journal/Daily";
+		// Strip trailing year if user already included it (e.g. "Journal/Daily/2026")
+		if (folder.endsWith(`/${year}`)) {
+			folder = folder.substring(0, folder.length - year.length - 1);
+		}
 		const path = normalizePath(`${folder}/${year}/${dateStr}.md`);
 
 		const existing = this.app.vault.getAbstractFileByPath(path);

@@ -100,7 +100,11 @@ export class EchoApi {
 
 	async getTodos(includeArchived = false): Promise<Todo[]> {
 		const params = includeArchived ? "?include_archived=true" : "";
-		return this.request<Todo[]>("GET", `/api/todos${params}`);
+		const resp = await this.request<{ todos: Todo[]; total: number; completed_count: number }>(
+			"GET",
+			`/api/todos${params}`,
+		);
+		return resp.todos;
 	}
 
 	async createTodo(text: string): Promise<Todo> {
