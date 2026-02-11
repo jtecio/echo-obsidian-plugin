@@ -4,7 +4,7 @@ import type { DailyNoteManager } from "./daily-notes";
 import type { EchoSettings, Todo } from "./types";
 import { formatDate } from "./formatter";
 
-const ECHO_TODO_MARKER = /#📼t(\d+)/;
+const ECHO_TODO_MARKER = /#📼t ?(\d+)/;
 const ECHO_TODO_MARKER_OLD = /<!-- echo-todo:(\d+) -->/;
 const MIC_EMOJI = "\u{1F3A4}"; // 🎤
 const TODO_LINE_RE = /^- \[([ x\/])\] /;
@@ -182,7 +182,7 @@ export class TodoSync {
 		const lines = content.split("\n");
 
 		if (lineIndex < lines.length && lines[lineIndex] === originalLine) {
-			lines[lineIndex] = `${originalLine} #📼t${todoId}`;
+			lines[lineIndex] = `${originalLine} #📼t ${todoId}`;
 			await this.app.vault.modify(file, lines.join("\n"));
 		}
 	}
@@ -200,7 +200,7 @@ export class TodoSync {
 			.sort((a, b) => a.position - b.position)
 			.map(t => {
 				const checkbox = t.completed ? "- [x]" : "- [ ]";
-				return `${checkbox} ${MIC_EMOJI} ${t.text.trim()} <!-- echo-todo:${t.id} -->`;
+				return `${checkbox} ${MIC_EMOJI} ${t.text.trim()} #📼t ${t.id}`;
 			})
 			.join("\n");
 

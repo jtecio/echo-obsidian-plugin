@@ -75,10 +75,10 @@ export class DailyNoteManager {
 		const content = await this.app.vault.read(file);
 
 		// Check for duplicate (support both old and new marker format)
-		const newMarker = entry.match(/#📼(\d+)/);
+		const newMarker = entry.match(/#📼 ?(\d+)/);
 		const oldMarker = entry.match(/<!-- echo-id:(\d+) -->/);
 		const markerId = newMarker?.[1] || oldMarker?.[1];
-		if (markerId && (content.contains(`#📼${markerId}`) || content.contains(`<!-- echo-id:${markerId} -->`))) {
+		if (markerId && (content.includes(`#📼 ${markerId}`) || content.includes(`#📼${markerId}`) || content.includes(`<!-- echo-id:${markerId} -->`))) {
 			return; // Already synced
 		}
 

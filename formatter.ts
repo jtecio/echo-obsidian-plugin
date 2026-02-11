@@ -28,7 +28,7 @@ export function formatCapture(
 		lines.push(`  [🎤](${webUrl})`);
 	}
 
-	lines.push(`#📼${capture.id}`);
+	lines.push(`#📼 ${capture.id}`);
 
 	return lines.join("\n");
 }
@@ -61,7 +61,7 @@ export function formatMeetingFilename(capture: Capture): string {
 
 export function formatTodo(todo: Todo): string {
 	const checkbox = todo.completed ? "- [x]" : "- [ ]";
-	return `${checkbox} ${todo.text.trim()} #📼t${todo.id}`;
+	return `${checkbox} ${todo.text.trim()} #📼t ${todo.id}`;
 }
 
 function sanitizeFilename(name: string): string {
