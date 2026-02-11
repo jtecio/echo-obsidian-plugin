@@ -1,0 +1,39 @@
+.echo-sync-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.echo-sync-badge .dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.echo-sync-badge .dot.green { background: #4caf50; }
+.echo-sync-badge .dot.yellow { background: #ff9800; }
+.echo-sync-badge .dot.red { background: #f44336; }
+
+.echo-settings-login {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	max-width: 400px;
+}
+
+.echo-settings-login .login-status {
+	padding: 8px 12px;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+.echo-settings-login .login-status.connected {
+	background: rgba(76, 175, 80, 0.15);
+	color: var(--text-success);
+}
+
+.echo-settings-login .login-status.disconnected {
+	background: rgba(244, 67, 54, 0.15);
+	color: var(--text-error);
+}
