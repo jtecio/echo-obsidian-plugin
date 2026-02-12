@@ -83,3 +83,83 @@ export interface Todo {
 	created_at: string;
 	completed_at: string | null;
 }
+
+// --- Time tracking types ---
+
+export interface PomodoroState {
+	work_minutes: number;
+	break_minutes: number;
+	long_break_minutes: number;
+	total_rounds: number;
+	current_round: number;
+	phase: string; // work | break | long_break | completed
+	phase_started_at: string;
+}
+
+export interface TimeEntryResponse {
+	id: number;
+	description: string;
+	project: string | null;
+	project_id: number | null;
+	project_color: string | null;
+	tags: string[];
+	started_at: string;
+	ended_at: string | null;
+	duration_seconds: number | null;
+	status: string; // running | paused | completed | cancelled
+	entry_type: string; // manual | pomodoro
+	pomodoro: PomodoroState | null;
+	capture_id: number | null;
+	billable: boolean;
+	created_at: string;
+}
+
+export interface ActiveTimerResponse {
+	entry: TimeEntryResponse | null;
+	server_now: string;
+}
+
+export interface ProjectSummary {
+	id: number | null;
+	name: string;
+	color: string;
+	seconds: number;
+}
+
+export interface DailySummaryResponse {
+	date: string;
+	total_duration_seconds: number;
+	billable_seconds: number;
+	project_list: ProjectSummary[];
+}
+
+export interface Project {
+	id: number;
+	name: string;
+	color: string;
+	archived: boolean;
+	created_at: string;
+}
+
+export interface StartTimerRequest {
+	description: string;
+	project_id?: number;
+	entry_type: string; // manual | pomodoro
+	pomodoro?: { work_minutes: number; break_minutes: number; long_break_minutes: number; total_rounds: number };
+	billable: boolean;
+}
+
+export interface TranscribeResponse {
+	text: string;
+	confidence: number;
+	duration_ms: number;
+	backend_used: string;
+	audio_key: string | null;
+}
+
+export interface CreateCaptureRequest {
+	text: string;
+	type: string; // brain | task | idea
+	audio_key?: string;
+	time_entry_id?: number;
+}

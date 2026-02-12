@@ -6,6 +6,7 @@ import { SyncEngine } from "./sync";
 import { TodoSync } from "./todo-sync";
 import { EchoSettingTab } from "./settings";
 import { DEFAULT_SETTINGS, type EchoSettings } from "./types";
+import { EchoPanelView, VIEW_TYPE_ECHO_PANEL } from "./view";
 
 export default class EchoWebSyncPlugin extends Plugin {
 	settings: EchoSettings = DEFAULT_SETTINGS;
@@ -46,12 +47,15 @@ export default class EchoWebSyncPlugin extends Plugin {
 		// Settings tab
 		this.addSettingTab(new EchoSettingTab(this.app, this));
 
-		// Ribbon icon
+		// Register panel view
+		this.registerView(VIEW_TYPE_ECHO_PANEL, (leaf) => new EchoPanelView(leaf, this));
+
+		// Ribbon icon — opens panel
 		this.ribbonEl = this.addRibbonIcon(
 			"mic",
-			"Echo Web Sync",
+			"Echo Panel",
 			async () => {
-				await this.syncNow();
+				await this.activateView();
 			},
 		);
 
@@ -59,7 +63,15 @@ export default class EchoWebSyncPlugin extends Plugin {
 		this.statusBarEl = this.addStatusBarItem();
 		this.updateStatusBar("idle");
 
-		// Command
+		// Commands
+		this.addCommand({
+			id: "echo-open-panel",
+			name: "Open Echo Panel",
+			callback: async () => {
+				await this.activateView();
+			},
+		});
+
 		this.addCommand({
 			id: "echo-sync-now",
 			name: "Sync Now",
@@ -84,6 +96,20 @@ export default class EchoWebSyncPlugin extends Plugin {
 
 	onunload(): void {
 		this.stopAutoSync();
+		this.app.workspace.detachLeavesOfType(VIEW_TYPE_ECHO_PANEL);
+	}
+
+	async activateView(): Promise<void> {
+		const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_ECHO_PANEL);
+		if (existing.length > 0) {
+			this.app.workspace.revealLeaf(existing[0]);
+			return;
+		}
+		const leaf = this.app.workspace.getRightLeaf(false);
+		if (leaf) {
+			await leaf.setViewState({ type: VIEW_TYPE_ECHO_PANEL, active: true });
+			this.app.workspace.revealLeaf(leaf);
+		}
 	}
 
 	async loadSettings(): Promise<void> {

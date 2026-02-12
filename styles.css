@@ -37,3 +37,425 @@
 	background: rgba(244, 67, 54, 0.15);
 	color: var(--text-error);
 }
+
+/* =========================================
+   ECHO PANEL — Neon Terminal Theme
+   ========================================= */
+
+.echo-panel {
+	font-family: Consolas, "Courier New", monospace;
+	padding: 8px;
+	font-size: 13px;
+}
+
+/* --- Sections --- */
+
+.echo-section {
+	margin-bottom: 12px;
+}
+
+.echo-section-header {
+	cursor: pointer;
+	padding: 6px 8px;
+	color: #fa0;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	border: 1px solid rgba(255, 170, 0, 0.3);
+	border-radius: 3px;
+	user-select: none;
+	font-size: 12px;
+}
+
+.echo-section-header:hover {
+	background: rgba(255, 170, 0, 0.08);
+}
+
+.echo-chevron {
+	font-size: 10px;
+	display: inline-block;
+	width: 14px;
+}
+
+.echo-section-body-wrapper {
+	padding: 8px 4px;
+}
+
+.echo-section-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+/* --- Record Section --- */
+
+.echo-type-picker {
+	display: flex;
+	gap: 4px;
+}
+
+.echo-type-btn {
+	flex: 1;
+	padding: 4px 8px;
+	background: transparent;
+	border: 1px solid rgba(255, 170, 0, 0.3);
+	color: rgba(255, 170, 0, 0.6);
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 11px;
+	cursor: pointer;
+	border-radius: 2px;
+	transition: all 0.15s;
+}
+
+.echo-type-btn.active {
+	border-color: #fa0;
+	color: #fa0;
+	background: rgba(255, 170, 0, 0.1);
+	text-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
+}
+
+.echo-type-btn:hover {
+	border-color: #fa0;
+}
+
+.echo-record-btn {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	border: 2px solid #fa0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	margin: 8px auto;
+	transition: all 0.2s;
+}
+
+.echo-record-btn:hover {
+	box-shadow: 0 0 16px rgba(255, 170, 0, 0.3);
+}
+
+.echo-record-btn.disabled {
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+.echo-record-btn-inner {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: #fa0;
+	transition: all 0.2s;
+}
+
+.echo-record-btn.recording {
+	border-color: #f44;
+	animation: echo-pulse 1.5s ease-in-out infinite;
+}
+
+.echo-record-btn.recording .echo-record-btn-inner {
+	background: #f44;
+	border-radius: 4px;
+	width: 20px;
+	height: 20px;
+}
+
+.echo-record-btn.processing {
+	border-color: #ff9800;
+	opacity: 0.7;
+}
+
+.echo-record-btn.processing .echo-record-btn-inner {
+	animation: echo-spin 1s linear infinite;
+}
+
+@keyframes echo-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(244, 68, 68, 0.4); }
+	50% { box-shadow: 0 0 20px 8px rgba(244, 68, 68, 0.2); }
+}
+
+@keyframes echo-spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+.echo-record-duration {
+	text-align: center;
+	font-size: 18px;
+	color: #fa0;
+	font-family: Consolas, "Courier New", monospace;
+}
+
+.echo-record-status {
+	text-align: center;
+	font-size: 11px;
+	color: rgba(255, 170, 0, 0.7);
+	min-height: 16px;
+	word-break: break-word;
+}
+
+/* --- Timer Section --- */
+
+.echo-timer-display {
+	text-align: center;
+	font-size: 36px;
+	color: #fa0;
+	font-family: Consolas, "Courier New", monospace;
+	text-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
+	padding: 4px 0;
+	letter-spacing: 0.05em;
+}
+
+.echo-timer-display.paused {
+	animation: echo-blink 1s step-end infinite;
+}
+
+@keyframes echo-blink {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.3; }
+}
+
+.echo-timer-info {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+}
+
+.echo-timer-desc {
+	color: var(--text-normal);
+	font-size: 12px;
+}
+
+.echo-timer-project {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: rgba(255, 170, 0, 0.8);
+}
+
+.echo-project-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.echo-pomo-phase {
+	font-size: 11px;
+	color: #fa0;
+	letter-spacing: 0.1em;
+}
+
+.echo-timer-controls {
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.echo-ctrl-btn {
+	padding: 4px 12px;
+	background: transparent;
+	border: 1px solid #fa0;
+	color: #fa0;
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 12px;
+	cursor: pointer;
+	border-radius: 2px;
+	transition: all 0.15s;
+}
+
+.echo-ctrl-btn:hover {
+	background: rgba(255, 170, 0, 0.1);
+	text-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
+}
+
+.echo-ctrl-btn:disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.echo-cancel-btn {
+	border-color: rgba(244, 67, 54, 0.5);
+	color: rgba(244, 67, 54, 0.8);
+}
+
+.echo-cancel-btn:hover {
+	background: rgba(244, 67, 54, 0.1);
+}
+
+/* Timer start form */
+
+.echo-timer-start-form {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.echo-timer-input {
+	padding: 6px 8px;
+	background: transparent;
+	border: 1px solid rgba(255, 170, 0, 0.3);
+	color: var(--text-normal);
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 12px;
+	border-radius: 2px;
+}
+
+.echo-timer-input:focus {
+	border-color: #fa0;
+	outline: none;
+	box-shadow: 0 0 4px rgba(255, 170, 0, 0.2);
+}
+
+.echo-timer-select {
+	padding: 4px 6px;
+	background: var(--background-secondary);
+	border: 1px solid rgba(255, 170, 0, 0.3);
+	color: var(--text-normal);
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 11px;
+	border-radius: 2px;
+}
+
+.echo-timer-select.small {
+	flex: 1;
+}
+
+.echo-timer-options {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.echo-billable-label {
+	font-size: 11px;
+	color: var(--text-muted);
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
+}
+
+.echo-start-btn {
+	padding: 8px;
+	background: transparent;
+	border: 2px solid #fa0;
+	color: #fa0;
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 3px;
+	transition: all 0.15s;
+	letter-spacing: 0.1em;
+}
+
+.echo-start-btn:hover {
+	background: rgba(255, 170, 0, 0.1);
+	text-shadow: 0 0 12px rgba(255, 170, 0, 0.5);
+	box-shadow: 0 0 12px rgba(255, 170, 0, 0.2);
+}
+
+/* Daily summary */
+
+.echo-summary-bar {
+	margin-top: 4px;
+}
+
+.echo-summary-label {
+	font-size: 11px;
+	color: rgba(255, 170, 0, 0.7);
+	margin-bottom: 4px;
+}
+
+.echo-summary-projects {
+	display: flex;
+	height: 6px;
+	border-radius: 3px;
+	overflow: hidden;
+	gap: 1px;
+}
+
+.echo-summary-segment {
+	min-width: 4px;
+	transition: width 0.3s;
+}
+
+/* --- Todos Section --- */
+
+.echo-todo-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.echo-todo-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+	padding: 3px 4px;
+	border-radius: 2px;
+}
+
+.echo-todo-item:hover {
+	background: rgba(255, 170, 0, 0.05);
+}
+
+.echo-todo-cb {
+	margin-top: 2px;
+	accent-color: #fa0;
+	cursor: pointer;
+}
+
+.echo-todo-text {
+	font-size: 12px;
+	color: var(--text-normal);
+	line-height: 1.4;
+}
+
+.echo-todo-empty {
+	text-align: center;
+	font-size: 11px;
+	color: var(--text-muted);
+	padding: 8px 0;
+}
+
+.echo-todo-add {
+	display: flex;
+	gap: 4px;
+	margin-top: 4px;
+}
+
+.echo-todo-input {
+	flex: 1;
+	padding: 4px 8px;
+	background: transparent;
+	border: 1px solid rgba(255, 170, 0, 0.3);
+	color: var(--text-normal);
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 12px;
+	border-radius: 2px;
+}
+
+.echo-todo-input:focus {
+	border-color: #fa0;
+	outline: none;
+}
+
+.echo-todo-add-btn {
+	padding: 4px 8px;
+	background: transparent;
+	border: 1px solid #fa0;
+	color: #fa0;
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 12px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.echo-todo-add-btn:hover {
+	background: rgba(255, 170, 0, 0.1);
+}
